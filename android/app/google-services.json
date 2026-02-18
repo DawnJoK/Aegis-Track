@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "890343137687",
+    "project_id": "aegistrack-4d8af",
+    "storage_bucket": "aegistrack-4d8af.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890343137687:android:bcdda45ca6e4cbf52664d2",
+        "android_client_info": {
+          "package_name": "app.base44.aegis_track"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjjYyiffib2cUuiN9U-foVZYx4jkucby4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

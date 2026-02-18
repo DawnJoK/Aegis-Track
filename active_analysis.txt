@@ -1,0 +1,5 @@
+Analyzing alert_history_page.dart...
+
+   info - alert_history_page.dart:179:33 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+
+1 issue found.

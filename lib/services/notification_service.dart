@@ -78,4 +78,31 @@ class NotificationService {
       notificationDetails: platformChannelSpecifics,
     );
   }
+
+  Future<void> showNewAlertNotification(Map<String, dynamic> alertData) async {
+    final String type = alertData['type'] ?? 'Alert';
+    final String product = alertData['product'] ?? 'Vehicle';
+    final String location = alertData['location'] ?? 'Unknown location';
+
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'aegis_alert_channel',
+      'Security Alerts',
+      channelDescription: 'High priority alerts for security incidents.',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: true,
+      icon: '@mipmap/ic_launcher',
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await _flutterLocalNotificationsPlugin.show(
+      id: DateTime.now().millisecondsSinceEpoch ~/ 1000, // Unique ID to show multiple heads-up notifications
+      title: '$type Alert on $product',
+      body: 'Detected at $location',
+      notificationDetails: platformChannelSpecifics,
+    );
+  }
 }

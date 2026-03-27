@@ -33,6 +33,25 @@ class DatabaseService {
         .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
   }
 
+  Stream<Map<String, dynamic>> get newAlertsStream {
+    if (_db == null) {
+      return const Stream.empty();
+    }
+    // Only yield documents that are newly added after listening starts,
+    // avoiding the initial state load.
+    return _db!
+        .collection('alerts')
+        .orderBy('timestamp', descending: true)
+        .limit(1) // Keep the query light, just looking for newest
+        .snapshots()
+        .skip(1) // Skip the first snapshot which contains existing data
+        .expand((snapshot) {
+      return snapshot.docChanges
+          .where((change) => change.type == DocumentChangeType.added)
+          .map((change) => change.doc.data() ?? {});
+    });
+  }
+
   Stream<List<Map<String, dynamic>>> get evidenceStream {
     if (_db == null) {
       return Stream.error(

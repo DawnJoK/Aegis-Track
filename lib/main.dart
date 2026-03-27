@@ -33,6 +33,13 @@ void main() async {
     }, onError: (e) {
       debugPrint('Error in settings stream for notification: $e');
     });
+
+    // Listen to new alerts and trigger local push notifications
+    DatabaseService().newAlertsStream.listen((alertData) {
+      NotificationService().showNewAlertNotification(alertData);
+    }, onError: (e) {
+      debugPrint('Error listening to new alerts: $e');
+    });
   } catch (e) {
     debugPrint('Firebase not initialized: $e');
   }

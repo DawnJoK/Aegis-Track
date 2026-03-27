@@ -34,44 +34,97 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Stats Grid
-            Row(
-              children: [
-                Expanded(
-                  child: _StatCard(
-                    icon: Icons.warning_amber_rounded,
-                    label: 'Active Alerts',
-                    value: '0',
-                    color: const Color(0xFFFF5252),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _StatCard(
-                    icon: Icons.check_circle,
-                    label: 'Resolved',
-                    value: '0',
-                    color: const Color(0xFF00E676),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _StatCard(
-                    icon: Icons.access_time,
-                    label: 'Today',
-                    value: '0',
-                    color: const Color(0xFFFFB74D),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _StatCard(
-                    icon: Icons.camera_alt,
-                    label: 'Evidence',
-                    value: '0',
-                    color: const Color(0xFF2979FF),
-                  ),
-                ),
-              ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < 600) {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _StatCard(
+                              icon: Icons.warning_amber_rounded,
+                              label: 'Active Alerts',
+                              value: '0',
+                              color: const Color(0xFFFF5252),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: _StatCard(
+                              icon: Icons.check_circle,
+                              label: 'Resolved',
+                              value: '0',
+                              color: const Color(0xFF00E676),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _StatCard(
+                              icon: Icons.access_time,
+                              label: 'Today',
+                              value: '0',
+                              color: const Color(0xFFFFB74D),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: _StatCard(
+                              icon: Icons.camera_alt,
+                              label: 'Evidence',
+                              value: '0',
+                              color: const Color(0xFF2979FF),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+                return Row(
+                  children: [
+                    Expanded(
+                      child: _StatCard(
+                        icon: Icons.warning_amber_rounded,
+                        label: 'Active Alerts',
+                        value: '0',
+                        color: const Color(0xFFFF5252),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _StatCard(
+                        icon: Icons.check_circle,
+                        label: 'Resolved',
+                        value: '0',
+                        color: const Color(0xFF00E676),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _StatCard(
+                        icon: Icons.access_time,
+                        label: 'Today',
+                        value: '0',
+                        color: const Color(0xFFFFB74D),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _StatCard(
+                        icon: Icons.camera_alt,
+                        label: 'Evidence',
+                        value: '0',
+                        color: const Color(0xFF2979FF),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 24),
 
@@ -171,24 +224,26 @@ class _SystemStatusCard extends StatelessWidget {
             child: Icon(icon, color: color, size: 48),
           ),
           const SizedBox(width: 24),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                statusText,
-                style: TextStyle(
-                  color: color,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  statusText,
+                  style: TextStyle(
+                    color: color,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                subText,
-                style: TextStyle(color: Colors.grey[400], fontSize: 14),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Text(
+                  subText,
+                  style: TextStyle(color: Colors.grey[400], fontSize: 14),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -230,22 +285,24 @@ class _StatCard extends StatelessWidget {
             child: Icon(icon, color: color, size: 24),
           ),
           const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              Text(
-                label,
-                style: TextStyle(fontSize: 12, color: Colors.grey[400]),
-              ),
-            ],
+                Text(
+                  label,
+                  style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+                ),
+              ],
+            ),
           ),
         ],
       ),

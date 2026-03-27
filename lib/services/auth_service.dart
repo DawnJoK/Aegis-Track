@@ -11,11 +11,11 @@ class AuthService {
   // Get current user
   User? get currentUser => _auth.currentUser;
 
-  // Sign Up with Email, Password, and Phone Number
   Future<UserCredential> signUp({
     required String email,
     required String password,
     required String phoneNumber,
+    required String username,
   }) async {
     try {
       // Create user in Firebase Auth
@@ -27,6 +27,7 @@ class AuthService {
         await _firestore.collection('users').doc(userCredential.user!.uid).set({
           'email': email,
           'phoneNumber': phoneNumber,
+          'username': username,
           'uid': userCredential.user!.uid,
           'createdAt': FieldValue.serverTimestamp(),
         });
@@ -102,5 +103,10 @@ class AuthService {
   // Sign Out
   Future<void> signOut() async {
     await _auth.signOut();
+  }
+
+  // Send Password Reset Email
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
   }
 }

@@ -13,6 +13,8 @@ import 'pages/signup_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'services/notification_service.dart';
+import 'services/database_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,17 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    
+    // Initialize notifications
+    await NotificationService().init();
+    
+    // Listen to system status and update notification persistently
+    DatabaseService().settingsStream.listen((settings) {
+      final bool systemArmed = settings['systemArmed'] ?? false;
+      NotificationService().updateStatusNotification(systemArmed);
+    }, onError: (e) {
+      debugPrint('Error in settings stream for notification: $e');
+    });
   } catch (e) {
     debugPrint('Firebase not initialized: $e');
   }

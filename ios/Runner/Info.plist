@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Aegis Track requires your location to display your position on the map.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Aegis Track requires background location access to monitor security threats.</string>
 </dict>
 </plist>

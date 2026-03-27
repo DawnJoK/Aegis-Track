@@ -257,10 +257,13 @@ class _AlertHistoryPageState extends State<AlertHistoryPage> {
                                             ),
                                           ),
                                           const SizedBox(width: 8),
-                                          Text(
-                                            data['type'] ?? 'Unknown',
-                                            style: const TextStyle(
-                                              color: Colors.white,
+                                          Expanded(
+                                            child: Text(
+                                              data['type'] ?? 'Unknown',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ],

@@ -13,7 +13,9 @@ class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final AuthService _authService = AuthService();
   bool _isLoading = false;
   String? _errorMessage;
@@ -22,8 +24,29 @@ class _SignupPageState extends State<SignupPage> {
   void dispose() {
     _emailController.dispose();
     _phoneController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _onPasswordChanged(String _) {
+    setState(() {});
+  }
+
+  Widget? _getPasswordSuffixIcon() {
+    final password = _passwordController.text;
+    final confirm = _confirmPasswordController.text;
+    
+    if (password.isEmpty || confirm.isEmpty) {
+      return null;
+    }
+    
+    if (password == confirm) {
+      return const Icon(Icons.check_circle, color: Colors.green);
+    } else {
+      return const Icon(Icons.cancel, color: Colors.red);
+    }
   }
 
   Future<void> _handleSignup() async {
@@ -37,6 +60,7 @@ class _SignupPageState extends State<SignupPage> {
         await _authService.signUp(
           email: _emailController.text.trim(),
           phoneNumber: _phoneController.text.trim(),
+          username: _usernameController.text.trim(),
           password: _passwordController.text.trim(),
         );
         // Navigation is handled by auth state listener in main.dart
@@ -89,6 +113,21 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a username';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
                     controller: _phoneController,
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
@@ -106,18 +145,41 @@ class _SignupPageState extends State<SignupPage> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: 'New Password',
+                      prefixIcon: const Icon(Icons.lock),
+                      suffixIcon: _getPasswordSuffixIcon(),
+                      border: const OutlineInputBorder(),
                     ),
                     obscureText: true,
+                    onChanged: _onPasswordChanged,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a password';
                       }
                       if (value.length < 6) {
                         return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: _getPasswordSuffixIcon(),
+                      border: const OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    onChanged: _onPasswordChanged,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please confirm your password';
+                      }
+                      if (value != _passwordController.text) {
+                        return 'Passwords do not match';
                       }
                       return null;
                     },
